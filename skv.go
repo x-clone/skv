@@ -20,7 +20,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/boltdb/bolt"
+	bolt "go.etcd.io/bbolt"
 )
 
 // KVStore represents the key value store. Use the Open() method to create
@@ -109,9 +109,9 @@ func (kvs *KVStore) Put(key string, value interface{}) error {
 // The value passed to Get() can be nil, in which case any value read from
 // the store is silently discarded.
 //
-//  if err := store.Get("key42", nil); err == nil {
-//      fmt.Println("entry is present")
-//  }
+//	if err := store.Get("key42", nil); err == nil {
+//	    fmt.Println("entry is present")
+//	}
 func (kvs *KVStore) Get(key string, value interface{}) error {
 	return kvs.db.View(func(tx *bolt.Tx) error {
 		c := tx.Bucket(bucketName).Cursor()
